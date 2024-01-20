@@ -5,6 +5,9 @@ from config import BOT_TOKEN
 from main_function import get_price
 import requests
 import pytz
+from keep_alive import keep_alive
+
+keep_alive()
 
 bot=telebot.TeleBot(BOT_TOKEN)
 shelve={}
