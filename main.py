@@ -7,8 +7,6 @@ import requests
 import pytz
 from keep_alive import keep_alive
 
-keep_alive()
-
 bot=telebot.TeleBot(BOT_TOKEN)
 shelve={}
 class User:
@@ -199,8 +197,10 @@ def get_tz():
     buttons.add(*list(tz_list.keys()))
     return buttons
 
-while True:
-    try:
-        bot.polling(non_stop=True)
-    except:
-        pass
+def start_bot():
+    keep_alive()
+    while True:
+        try:
+            bot.polling(non_stop=True)
+        except:
+            pass
