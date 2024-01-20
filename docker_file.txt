@@ -1,4 +1,5 @@
 pip install threaded
+pip install telebot
 pip install datetime
 pip install telebot
 pip install requests
