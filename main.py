@@ -28,6 +28,7 @@ with open(lockfile, 'w') as f:
     try:
 
 # Your bot code here
+        bot.polling(non_stop=True, long_polling_timeout=100)
         shelve = {}
         class User:
             def __init__(self, id, data=[], currencies={}):
@@ -185,6 +186,7 @@ with open(lockfile, 'w') as f:
             else:
                 responce='I`m sorry, i don`t understand what you want me to do'
             bot.send_message(message.chat.id, responce)
+        fcntl.flock(f, fcntl.LOCK_UN)
     except Exception as e:
         print(f'Error in bot code: {e}')
         fcntl.flock(f, fcntl.LOCK_UN)
