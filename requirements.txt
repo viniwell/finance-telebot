@@ -6,4 +6,3 @@ requests
 pytz
 flask
 bs4
-os
