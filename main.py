@@ -7,7 +7,6 @@ import requests
 import pytz
 from keep_alive import keep_alive
 import os
-import fcntl
 
 # Replace this with your actual bot token
 bot_token=BOT_TOKEN
@@ -15,11 +14,8 @@ bot_token=BOT_TOKEN
 # Create the bot instance
 bot = telebot.TeleBot(bot_token)
 
-keep_alive()
 
 # Your bot code here
-thread=threading.Thread(target=bot.polling, kwargs={'non_stop':True, 'long_polling_timeout':100})
-thread.start()
 shelve = {}
 class User:
     def __init__(self, id, data=[], currencies={}):
@@ -209,3 +205,4 @@ def get_tz():
     buttons.add(*list(tz_list.keys()))
     return buttons
 
+bot.polling(non_stop=True, long_polling_timeout=100)
