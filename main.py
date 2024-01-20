@@ -10,7 +10,6 @@ from keep_alive import keep_alive
 bot=telebot.TeleBot(BOT_TOKEN)
 shelve={}
 def start_bot():
-    keep_alive()
     while True:
         try:
             bot.polling(non_stop=True)
