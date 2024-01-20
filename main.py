@@ -205,4 +205,5 @@ def get_tz():
     buttons.add(*list(tz_list.keys()))
     return buttons
 
+print('bot works!')
 bot.polling(non_stop=True, long_polling_timeout=100)
