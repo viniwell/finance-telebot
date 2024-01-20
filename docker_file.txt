@@ -6,4 +6,3 @@ pip install requests
 pip install pytz
 pip install flask
 pip install bs4
-python3 main.py
