@@ -9,42 +9,24 @@ from keep_alive import keep_alive
 import os
 import fcntl
 
-global bot
-bot = telebot.TeleBot(BOT_TOKEN)
-shelve = {}
+# Replace this with your actual bot token
+bot_token=BOT_TOKEN
 lockfile = "/tmp/mybot.lock"
 
-def start_bot():
-    if not acquire_lock():
-        print("Error: another instance of the bot is already running")
-        return
-    try:
-        while True:
-            try:
-                bot.polling(non_stop=True)
-            except:
-                pass
-    finally:
-        release_lock()
+# Create the bot instance
+bot = telebot.TeleBot(bot_token)
 
-def acquire_lock():
-    """Acquire the lock file."""
-    if not os.path.exists(lockfile):
-        open(lockfile, 'w').close()
-    f = open(lockfile, 'r+')
-    try:
-        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except IOError:
-        return False
-    return True
+# Check if the lockfile exists
+if os.path.exists(lockfile):
+    print('Bot is already running')
+    exit()
 
-def release_lock():
-    """Release the lock file."""
-    f = open(lockfile, 'r+')
-    fcntl.flock(f, fcntl.LOCK_UN)
-    os.remove(lockfile)
+# Create the lockfile and acquire an exclusive lock
+with open(lockfile, 'w') as f:
+    fcntl.flock(f, fcntl.LOCK_EX)
 
-
+# Your bot code here
+shelve = {}
 class User:
     def __init__(self, id, data=[], currencies={}):
         if data:
@@ -233,4 +215,5 @@ def get_tz():
     buttons.add(*list(tz_list.keys()))
     return buttons
 
-start_bot()
+# Release the lock when your bot is finished running
+fcntl.flock(f, fcntl.LOCK_UN)
