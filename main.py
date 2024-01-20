@@ -9,6 +9,13 @@ from keep_alive import keep_alive
 
 bot=telebot.TeleBot(BOT_TOKEN)
 shelve={}
+def start_bot():
+    keep_alive()
+    while True:
+        try:
+            bot.polling(non_stop=True)
+        except:
+            pass
 class User:
     def __init__(self, id, data=[], currencies={}):
         if data:
@@ -39,6 +46,8 @@ class User:
             self.t=threading.Timer(self.time[0]*3600+self.time[1]*60-current_time, func, [self.id])
         
         self.t.start()
+
+start_bot()
 
 @bot.message_handler(commands=['start'])
 def start_command(message):
@@ -196,11 +205,3 @@ def get_tz():
     tz_list={f'{(utc+tz)//3600%24//10}{(utc+tz)//3600%24%10}:{(utc+tz)%3600//60//10}{(utc+tz)%3600//60%10}':tz for tz in tz_list}
     buttons.add(*list(tz_list.keys()))
     return buttons
-
-def start_bot():
-    keep_alive()
-    while True:
-        try:
-            bot.polling(non_stop=True)
-        except:
-            pass

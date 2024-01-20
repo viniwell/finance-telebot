@@ -1,8 +1,0 @@
-pip install threaded
-pip install telebot
-pip install datetime
-pip install telebot
-pip install requests
-pip install pytz
-pip install flask
-pip install bs4
