@@ -29,6 +29,7 @@ with open(lockfile, 'w') as f:
 
 # Your bot code here
         thread=threading.Thread(target=bot.polling, kwargs={'non_stop':True, 'long_polling_timeout':100})
+        thread.start()
         shelve = {}
         class User:
             def __init__(self, id, data=[], currencies={}):
