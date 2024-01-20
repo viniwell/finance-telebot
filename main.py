@@ -6,16 +6,45 @@ from main_function import get_price
 import requests
 import pytz
 from keep_alive import keep_alive
+import os
+import fcntl
 
 global bot
-bot=telebot.TeleBot(BOT_TOKEN)
-shelve={}
+bot = telebot.TeleBot(BOT_TOKEN)
+shelve = {}
+lockfile = "/tmp/mybot.lock"
+
 def start_bot():
-    while True:
-        try:
-            bot.polling(non_stop=True)
-        except:
-            pass
+    if not acquire_lock():
+        print("Error: another instance of the bot is already running")
+        return
+    try:
+        while True:
+            try:
+                bot.polling(non_stop=True)
+            except:
+                pass
+    finally:
+        release_lock()
+
+def acquire_lock():
+    """Acquire the lock file."""
+    if not os.path.exists(lockfile):
+        open(lockfile, 'w').close()
+    f = open(lockfile, 'r+')
+    try:
+        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except IOError:
+        return False
+    return True
+
+def release_lock():
+    """Release the lock file."""
+    f = open(lockfile, 'r+')
+    fcntl.flock(f, fcntl.LOCK_UN)
+    os.remove(lockfile)
+
+
 class User:
     def __init__(self, id, data=[], currencies={}):
         if data:
