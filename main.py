@@ -5,14 +5,17 @@ from config import BOT_TOKEN
 from main_function import get_price
 import requests
 import pytz
-from keep_alive import keep_alive
 import os
 
 # Replace this with your actual bot token
 bot_token=BOT_TOKEN
 
 # Create the bot instance
+
 bot = telebot.TeleBot(bot_token)
+def start_bot():
+    print('bot works!')
+    bot.polling(non_stop=True, long_polling_timeout=100)
 
 # Your bot code here
 shelve = {}
@@ -204,5 +207,4 @@ def get_tz():
     buttons.add(*list(tz_list.keys()))
     return buttons
 
-print('bot works!')
-bot.polling(non_stop=True, long_polling_timeout=100)
+start_bot()
