@@ -14,7 +14,6 @@ bot_token=BOT_TOKEN
 # Create the bot instance
 bot = telebot.TeleBot(bot_token)
 
-
 # Your bot code here
 shelve = {}
 class User:
